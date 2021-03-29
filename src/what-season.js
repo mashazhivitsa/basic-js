@@ -2,27 +2,39 @@ const CustomError = require("../extensions/custom-error");
 
 module.exports = function getSeason(date) {
 
-  if (date == '' ) {
-    return 'Unable to determine the time of year!';
-  }
 
-  if (typeof date == null || typeof date == undefined) {
-    throw new CustomError('THROWN');
-  }
-
-  let month = date.getMonth();
-
-    switch (month) {
-      case 12 || 1 || 2 :
-        return 'winter';
-      case 3 || 4 || 5 :
-        return 'spring';
-      case 6 || 7 || 8 :
-        return 'summer';
-      case 9 || 10 || 11 :
-        return 'autumn';
+    if (date == null) {
+      return 'Unable to determine the time of year!';
     }
-};
 
-
-// getSeason(1994, 1, 2, 3, 4, 5);
+    if (date instanceof Date) {
+      if(Object.prototype.toString.call(date) !== '[object Date]') throw new Error('THROWN');
+      
+      const month = date.getMonth();
+    
+      switch(month) {
+        case 0:
+        case 1:
+        case 11:
+          return 'winter';
+    
+        case 2:
+        case 3:
+        case 4:
+          return 'spring';
+    
+        case 5:
+        case 6:
+        case 7:
+          return 'summer';
+    
+        case 8:
+        case 9:
+        case 10:
+          return 'autumn';
+      }
+    }
+    
+    throw new Error('THROWN');
+    };
+  
